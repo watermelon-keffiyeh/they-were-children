@@ -1,7 +1,6 @@
 # They Were Children — Gaza Memorial
 
 A documentary website recording children killed in Gaza since October 2023.
-Built with plain HTML/CSS/JS. No framework, no build step — deploys directly to GitHub Pages.
 
 ---
 
@@ -65,8 +64,6 @@ Do not add names from unverified social media without cross-referencing at least
 ## Principles
 
 - **Accuracy over comprehensiveness** — a smaller verified record is better than a large unverified one
-- **Humanity first** — every entry should say something about the person, not just how they died
-- **No political framing** — the site documents what happened; it does not argue for a particular position
 - **Open source** — anyone can verify, correct, or contribute
 
 ---
