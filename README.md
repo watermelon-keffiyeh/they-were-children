@@ -23,7 +23,7 @@ Every number was a child. This is an attempt to hold that.
 
 ## Adding Names
 
-Names are stored in the `children` array in `index.html` (around line 260).
+Names are stored in the `data` folder.
 Each entry follows this structure:
 
 ```js
@@ -31,6 +31,7 @@ Each entry follows this structure:
   name: "Child's full name",
   age: 7,
   detail: "One or two sentences. A specific detail, not a description of how they died.",
+  source: "source",
   photo: null   // or: "photos/filename.jpg"
 }
 ```
@@ -43,21 +44,6 @@ Each entry follows this structure:
 **Via GitHub:**
 - Open a Pull Request with the new entry
 - Or open an Issue with the information and a maintainer will add it
-
----
-
-## Data Sources
-
-All casualty data should trace back to:
-- Gaza Ministry of Health
-- OCHA (UN Office for the Coordination of Humanitarian Affairs)
-- UNICEF
-- Airwaves named victim database
-- Euro-Med Human Rights Monitor
-- Forensic Architecture
-- Individual verified journalist reports
-
-Do not add names from unverified social media without cross-referencing at least one documented source.
 
 ---
 
