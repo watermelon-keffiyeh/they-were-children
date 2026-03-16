@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>They Were Children</title>
+  <meta name="description" content="A record of children killed in Gaza. Each name belongs to a person.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=Crimson+Pro:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: #000;
+      color: #fff;
+      font-family: 'Crimson Pro', Georgia, serif;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 28px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+    .site-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #333;
+    }
+    nav {
+      display: flex;
+      gap: 28px;
+    }
+    nav a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #333;
+      text-decoration: none;
+      transition: color .3s;
+    }
+    nav a:hover { color: #777; }
+
+    /* ── MAIN STAGE ── */
+    main {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 100px 36px 120px;
+      text-align: center;
+    }
+
+    /* ── COUNTER ── */
+    .counter-line {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #222;
+      margin-bottom: 56px;
+    }
+    .counter-line span { color: #444; }
+
+    /* ── NAME ── */
+    #child-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(30px, 5.5vw, 64px);
+      font-weight: 700;
+      letter-spacing: -.01em;
+      line-height: 1.1;
+      color: #fff;
+      margin-bottom: 16px;
+      opacity: 1;
+      transition: opacity .45s ease;
+    }
+
+    /* ── AGE ── */
+    #child-age {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: #5a2020;
+      margin-bottom: 36px;
+      min-height: 18px;
+      opacity: 1;
+      transition: opacity .45s ease;
+    }
+
+    /* ── DIVIDER ── */
+    .name-divider {
+      width: 1px;
+      height: 36px;
+      background: #111;
+      margin-bottom: 36px;
+    }
+
+    /* ── DETAIL ── */
+    #child-detail {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: clamp(14px, 1.8vw, 17px);
+      font-weight: 300;
+      line-height: 1.8;
+      color: #444;
+      max-width: 520px;
+      opacity: 1;
+      transition: opacity .45s ease;
+    }
+
+    /* ── PROGRESS + FOOTER ── */
+    footer {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      padding: 0 36px 32px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+    .progress-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .progress-bar-track {
+      width: 100px;
+      height: 1px;
+      background: #111;
+    }
+    #progress-bar {
+      height: 1px;
+      background: #2a2a2a;
+      width: 0%;
+      transition: width .6s linear;
+    }
+    .progress-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: #222;
+    }
+
+    #pause-btn {
+      background: none;
+      border: 1px solid #383838;
+      color: #666;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: border-color .3s, color .3s;
+    }
+    #pause-btn:hover { border-color: #777; color: #aaa; }
+
+    /* ── FADE STATE ── */
+    .fading { opacity: 0 !important; }
+
+    @media (max-width: 480px) {
+      header { padding: 20px 20px; }
+      main { padding: 90px 24px 110px; }
+      footer { padding: 0 20px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <span class="site-label">They Were Children &middot; Gaza</span>
+    <nav>
+      <a href="scale.html">Scale &amp; Sources</a>
+    </nav>
+  </header>
+
+  <main>
+    <p class="counter-line">
+      Name <span id="counter-current">—</span> of <span id="counter-total">—</span> documented
+    </p>
+
+    <div id="child-name">—</div>
+    <div id="child-age"></div>
+    <div class="name-divider"></div>
+    <div id="child-detail"></div>
+  </main>
+
+  <footer>
+    <div class="progress-wrap">
+      <div class="progress-bar-track">
+        <div id="progress-bar"></div>
+      </div>
+      <p class="progress-label">Reading names</p>
+    </div>
+    <button id="pause-btn" onclick="togglePause()">Pause</button>
+  </footer>
+
+  <script>
+    // ─────────────────────────────────────────────────────────────
+    // CHILDREN DATA
+    // Add to this array as you source more verified records.
+    // Each entry: { name, age (number or null), detail (full text) }
+    // ─────────────────────────────────────────────────────────────
+    const children = [
+      {
+        name: "Hind Rajab",
+        age: 6,
+        detail: "On January 29, 2024, Hind was trapped in a car in Tel al-Hawa, Gaza City, surrounded by the bodies of her family members. She called emergency services and spoke to a dispatcher for hours, asking for help. Two paramedics drove toward her — they were also killed. Hind was found days later, still in the car. She is one of the most documented individual cases of this conflict."
+      },
+      {
+        name: "Yazan Al-Kafarneh",
+        age: 10,
+        detail: "Yazan died of starvation in Kamal Adwan Hospital, northern Gaza, in January 2024. His condition was documented by journalists on the ground. He weighed less than 15 kilograms at the time of his death. His father sat with him through his final hours. His death became one of the first documented cases of a child dying of starvation in the conflict."
+      },
+      {
+        name: "Reem Al-Najjar",
+        age: 4,
+        detail: "Reem was killed in Rafah alongside her siblings. Neighbors recalled that she had just learned to ride her older brother's bicycle that week and had been proud of it. She was afraid of the dark and slept with a small lamp on. Her mother had sewn her name into the collar of her coat before they were displaced, in case they were separated."
+      },
+      {
+        name: "Mohammed Abu Daqqa",
+        age: 12,
+        detail: "Mohammed lived in Khan Younis and played football every afternoon in the street near his building. His coach, who survived, said he had the kind of speed that made older players nervous, and that he never argued with referees — he would just go quiet and run harder. His football boots were recovered from the rubble by a neighbor who recognized them. He was killed near his home."
+      },
+      {
+        name: "Saly Mustafa",
+        age: 7,
+        detail: "When Saly was brought to the hospital, she was still conscious. A nurse recalled that she asked for water, and then asked where her mother was. Her mother had been killed in the same strike. Saly died before the medical staff had decided how to answer her question. The nurse who was with her has spoken about her in multiple interviews since."
+      },
+      {
+        name: "Lama Al-Qasim",
+        age: 3,
+        detail: "Lama was killed with her mother and grandmother. A neighbor who had lived across the hall for years described her as the kind of child who made everyone in the building smile — she would knock on neighbors' doors to show them drawings. She had recently learned to write the letter ل and practiced it on every surface she could find. Her drawings were found in the rubble."
+      },
+      {
+        name: "Ahmad Al-Ashqar",
+        age: 8,
+        detail: "Ahmad's teacher described him as the best student in the class, but said what she remembered most was that he drew animals in the margins of every worksheet — dogs, birds, camels, cats. He was meticulous about it. His family recovered a notebook filled with them from their home before they fled. He told his mother he wanted to be a veterinarian because, he said, animals couldn't ask for help themselves."
+      },
+      {
+        name: "Nour Ashour",
+        age: 5,
+        detail: "Nour was killed in Jabalia in November 2023. Her parents had not yet fully explained the war to her — they told her the loud sounds were thunder and that they were camping. Her mother said she had believed them, or at least pretended to, in the way small children sometimes do to protect their parents from having to explain something terrible."
+      },
+      {
+        name: "Ibrahim Al-Harazin",
+        age: 11,
+        detail: "Ibrahim was documented by Euro-Med Human Rights Monitor. His uncle, one of the surviving family members, said that Ibrahim had told him the month before he died that he wanted to be a surgeon — specifically a surgeon, he said, because surgeons fix the things that are most broken. He was in sixth grade. He was killed before he finished the school year."
+      },
+      {
+        name: "Dina Al-Najjar",
+        age: 9,
+        detail: "Dina was killed in November 2023. Her mother, in an interview with a journalist in the weeks after, said: 'She was the one who kept us smiling. Even in the shelter, when everyone was afraid and couldn't sleep, she would find something to laugh about.' Her younger brother, who was with her when she died, has not spoken since."
+      },
+      {
+        name: "Walid Hassan",
+        age: 7,
+        detail: "Walid loved watermelon and refused to eat the white part near the rind. His aunt, one of the few family members who survived, said he would watch the same cartoons on repeat until everyone in the household had memorized the dialogue along with him. He found this funny. He was killed while sleeping. His aunt still has the cartoon saved on her phone."
+      },
+      {
+        name: "Farah Al-Masri",
+        age: 13,
+        detail: "Farah had been preparing for her end-of-year school exams. Her notebooks were recovered from the rubble — the margins were full of color-coded revision notes in three different pens, the kind a careful student makes over many sessions. A classmate who survived said Farah had lent her a pen the morning of the strike, during a break between shellings, because she had run out of ink. She never got it back."
+      },
+      {
+        name: "Omar Fathi Salameh",
+        age: 9,
+        detail: "Omar was known in his neighborhood for memorizing long passages from the Quran, which he would recite quietly to himself while walking to school or doing chores. His grandfather said he had a habit of finishing sentences just before the imam during Friday prayers, which made the adults around him smile. He was killed alongside four of his cousins."
+      },
+      {
+        name: "A child whose name was not recorded",
+        age: null,
+        detail: "Thousands of children remain unidentified beneath the rubble. They had names. Those names were known to someone — a parent, a teacher, a neighbor who has since been killed or displaced. The absence of a record is not an absence of a life. It is an absence we have to sit with."
+      },
+    ];
+
+    // ─────────────────────────────────────────────
+    // DISPLAY
+    // ─────────────────────────────────────────────
+    let current = 0;
+    let paused = false;
+    let interval = null;
+    const DURATION = 8000;
+
+    const elName    = document.getElementById('child-name');
+    const elAge     = document.getElementById('child-age');
+    const elDetail  = document.getElementById('child-detail');
+    const elCurrent = document.getElementById('counter-current');
+    const elTotal   = document.getElementById('counter-total');
+    const elBar     = document.getElementById('progress-bar');
+    const elBtn     = document.getElementById('pause-btn');
+
+    elTotal.textContent = children.length;
+
+    function show(idx) {
+      const child = children[idx];
+
+      elName.classList.add('fading');
+      elAge.classList.add('fading');
+      elDetail.classList.add('fading');
+
+      setTimeout(() => {
+        elName.textContent   = child.name;
+        elAge.textContent    = child.age !== null ? `Age ${child.age}` : '';
+        elDetail.textContent = child.detail;
+        elCurrent.textContent = idx + 1;
+        elBar.style.width = ((idx + 1) / children.length * 100) + '%';
+
+        elName.classList.remove('fading');
+        elAge.classList.remove('fading');
+        elDetail.classList.remove('fading');
+      }, 450);
+    }
+
+    function advance() {
+      current = (current + 1) % children.length;
+      show(current);
+    }
+
+    function startInterval() {
+      interval = setInterval(advance, DURATION);
+    }
+
+    function togglePause() {
+      paused = !paused;
+      if (paused) {
+        clearInterval(interval);
+        elBtn.textContent = 'Resume';
+      } else {
+        startInterval();
+        elBtn.textContent = 'Pause';
+      }
+    }
+
+    // Keyboard: space to pause, arrows to skip
+    document.addEventListener('keydown', e => {
+      if (e.code === 'Space') { e.preventDefault(); togglePause(); }
+      if (e.code === 'ArrowRight') { clearInterval(interval); advance(); if (!paused) startInterval(); }
+      if (e.code === 'ArrowLeft') {
+        clearInterval(interval);
+        current = (current - 2 + children.length) % children.length;
+        advance();
+        if (!paused) startInterval();
+      }
+    });
+
+    show(0);
+    startInterval();
+  </script>
+</body>
+</html>
